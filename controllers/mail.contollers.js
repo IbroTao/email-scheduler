@@ -1,11 +1,15 @@
 const nodemailer = require("nodemailer");
+const cron = require("node-cron");
+require("dotenv").config();
 
+const sender = process.env.SENDER_NAME;
+const emailAccess = process.env.EMAIL_PASS;
 const transporter = nodemailer.createTransport({
   port: 465,
   host: "smtp.gmail.com",
   auth: {
-    user: "ghostcodert@gmail.com",
-    pass: "vast ffoy hdqi bdqa",
+    user: sender,
+    pass: emailAccess,
   },
   secure: true,
 });
@@ -17,8 +21,7 @@ const sendEmail = async (req, res) => {
       from: "ghostcodert@gmail.com",
       to: to,
       subject: subject,
-      text: text,
-      html: "<b>Hey there!</b> <br>This is my first message sent with Nodemailer <br/>",
+      html: `<b>Your Task: ${text}</b>`,
     };
 
     transporter.sendMail(mailData, (error, info) => {
@@ -34,5 +37,15 @@ const sendEmail = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+function logMessage() {
+  console.log("Event is scheduled.");
+}
+
+cron.schedule =
+  ("* * * * *",
+  () => {
+    logMessage();
+  });
 
 module.exports = { sendEmail };

@@ -32,8 +32,9 @@ const sendEmail = async (req, res) => {
         message_id: info.messageId,
       });
     });
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    console.error("Error creating task:", error);
+    res.json(err);
   }
 };
 

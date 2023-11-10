@@ -2,11 +2,13 @@ const { Task } = require("../models/task.model");
 
 const scheduleTask = async (req, res) => {
   try {
-    const { body } = req;
+    const { desc, userEmail } = req.body;
     const task = await Task.create({
-      desc: body.desc,
+      desc,
+      userEmail,
     });
-    res.status(201).json("Task scheduled");
+    const savedTask = await task.save();
+    res.status(201).json("Task scheduled", savedTask);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -14,9 +16,9 @@ const scheduleTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    const { body } = req;
+    const { desc } = req.body;
     const task = await Post.findByIdAndUpdate(req.params.id, {
-      desc: body.desc,
+      desc,
     });
     res.status(200).json("Task updated");
   } catch (err) {

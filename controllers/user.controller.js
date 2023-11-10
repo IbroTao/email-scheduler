@@ -10,11 +10,12 @@ const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
     const user = await User.findOne({ email });
     if (user) return res.status(400).json("Existing email, try another email");
-    await User.create({
+    const newUser = await User.create({
       username,
       email,
       password: hashSync(password, 10),
     });
+    const savedUser = await newUser.save();
     res.status(200).json("User registered!");
   } catch (err) {
     res.status(500).json(err);

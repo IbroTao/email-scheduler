@@ -8,6 +8,10 @@ const Task = mongoose.model(
         type: String,
         required: true,
       },
+      userEmail: {
+        type: String,
+        required: true,
+      },
       emailSent: {
         type: Boolean,
         default: false,

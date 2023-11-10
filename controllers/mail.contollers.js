@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-const cron = require("node-cron");
 require("dotenv").config();
 
 const sender = process.env.SENDER_NAME;
@@ -37,15 +36,5 @@ const sendEmail = async (req, res) => {
     res.status(500).json(err);
   }
 };
-
-function logMessage() {
-  console.log("Event is scheduled.");
-}
-
-cron.schedule =
-  ("* * * * *",
-  () => {
-    logMessage();
-  });
 
 module.exports = { sendEmail };

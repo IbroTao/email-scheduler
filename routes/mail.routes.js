@@ -3,6 +3,6 @@ const { verifyAndAuthorizeUser } = require("../middlewares/header");
 
 const router = require("express").Router();
 
-router.post("/send", sendEmail);
+router.post("/send", verifyAndAuthorizeUser, sendEmail);
 
 module.exports = router;
